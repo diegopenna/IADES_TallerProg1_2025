@@ -4,7 +4,7 @@ Instrucciones del Juego:
 -El numero tiene 4 dijitos
 -No se repiten los digitos
 -En cada ronda el usuario escribe un numero de 4 digitos.
-Como ayuda se infoman cuantos dijitos son Malos, Regulares y Buenos
+Como ayuda se infoman cuantos dígitos son Malos, Regulares y Buenos
 M - Malo, digito no existe en el numero oculto
 R - Regular, digito existe pero en distinta posicion
 B - Bueno, digito existe y esta en la posicion correcta.
