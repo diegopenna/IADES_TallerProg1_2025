@@ -1,0 +1,16 @@
+Instrucciones del Juego:
+
+-Adivinar el numero oculto.
+-El numero tiene 4 dijitos
+-No se repiten los digitos
+-En cada ronda el usuario escribe un numero de 4 digitos.
+Como ayuda se infoman cuantos dijitos son Malos, Regulares y Buenos
+M - Malo, digito no existe en el numero oculto
+R - Regular, digito existe pero en distinta posicion
+B - Bueno, digito existe y esta en la posicion correcta.
+
+Ejemplo:
+Numero oculto: 1453
+Numero propuesto: 2678 (4M)
+Numero propuesto: 2178 (3M 1R)
+Numero propuesto: 2153 (1M 1R 2B)
