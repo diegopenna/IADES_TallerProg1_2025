@@ -2,21 +2,64 @@
 def mostrarListaPrecios(listaProd):
     print("Lista de Percios")
     print(f"{'Nombre':10}|{"Precio" :8}|{'Cant.':5}|{'total':8}")
+    print("-" * 34)
     for prod in listaProd:
         print(f"{prod[0] :10}|{prod[1] :8.2f}|{prod[2] :5.2f}|{prod[1] * prod[2] :8.2f}")
 
-def agregarProducto(listaProd, nombre, precio, cantidad):
-    producto = [nombre, precio, cantidad]
-    listaProd.append(producto)
+    input("Presione enter para continuar....")
 
-def borrarProducto(listaProd, indice):
-    listaProd.pop(indice)
-
-def modificarProducto(listaProd, indice, nombre, precio, cantidad):
+def agregarProducto(listaProd):
+    print("Alta")
+    nombre = input("Ingrese Nombre: ")
     
-    listaProd[indice][0] = nombre
-    listaProd[indice][1] = precio
-    listaProd[indice][2] = cantidad
+    if existeNombre(listaProd, nombre):
+        print("Ya existe un producto con ese nombre")
+    else:
+        precio = float(input("Ingrese Precio: "))
+        cantidad = float(input("Ingrese Cantidad: "))
+        producto = [nombre, precio, cantidad]
+        listaProd.append(producto)
+
+def borrarProducto(listaProd):
+    print("Borrar")
+    nombre = input("Ingrese Nombre: ")
+
+    for i in range(len(listaProd)):
+        prod = listaProd[i]
+        if prod[0].lower() ==  nombre.lower():
+            listaProd.pop(i)
+            print("Se elimino el producto", nombre)
+            break
+    else:
+        print("Producto Inexistente")
+
+def modificarProducto(listaProd):
+    print("Modificar")
+    nombre = input("Ingrese Nombre: ")
+
+    for prod in listaProd:
+        if prod[0].lower() ==  nombre.lower():
+            nombre = input("Ingrese Nuevo Nombre: ")
+            if nombre.lower() != prod[0].lower() and existeNombre(listaProd, nombre):
+                print("Ya existe un producto con ese nombre")
+            else:
+                precio = float(input("Ingrese Precio: "))
+                cantidad = float(input("Ingrese Cantidad: "))
+
+                prod[0] = nombre
+                prod[1] = precio
+                prod[2] = cantidad
+
+                print("Producto", nombre, "mosdificado con exito.")
+            break
+    else:
+        print("Producto Inexistente")
+
+def existeNombre(listaProd, nombre):
+    for prod in listaProd:
+        if prod[0].lower() == nombre.lower():
+            return True
+    return False    
 
 def menuDeOpciones():
     print("ABM Productos")
@@ -44,11 +87,11 @@ listaProductos = [
 while True:
     opc = menuDeOpciones()
     if (opc == 1):
-        print("Codigo Alta")
+        agregarProducto(listaProductos)
     elif (opc == 2):
-        print("Codigo baja")
+        borrarProducto(listaProductos)
     elif (opc == 3):
-        print("Codigo modificar")
+        modificarProducto(listaProductos)
     elif (opc == 4):
         mostrarListaPrecios(listaProductos)
     if (opc == 5):
