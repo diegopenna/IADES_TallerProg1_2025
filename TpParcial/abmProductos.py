@@ -57,8 +57,8 @@ def menuAbmProductos():
             opc2 = libInputs.mostrarMenu(menuOrden, "Ordenar por:")
             if opc2 != "0":
                 print("Listado por", menuOrden[opc2])
-                listarProductos(columnas[opc2])
-
+                listaOrdenada = ordenarProductos(columnas[opc2])
+                imprimirListaProd(listaOrdenada)
 
 def altaProducto():
     producto = {}
@@ -82,7 +82,7 @@ def bajaProducto():
 def modificarProducto():
     print("Aca va el codigo de la modificacion")
 
-def listarProductos(orden):
+def ordenarProductos(orden):
     lista = list(listaProductos)
     intercambio = True
     ultimo = 1
@@ -94,8 +94,7 @@ def listarProductos(orden):
                 intercambio = True
         ultimo += 1
 
-    imprimirListaProd(lista)
-
+    return lista
 
 def imprimirListaProd(lista):
     #imprime Cabecera
