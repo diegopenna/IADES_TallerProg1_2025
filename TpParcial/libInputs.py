@@ -48,20 +48,24 @@ def inputOpciones(texto, opciones:list):
 
 def inputFloat(texto, validaPositivo:bool, permiteCero:bool):
     while True:
-        valor = float(input(texto))
+        try:
+            valor = float(input(texto))
+            if (valor < 0):
+                if (validaPositivo):
+                    print("Error: El valor debe ser positivo.")
+                else:
+                    return valor
+            elif (valor == 0):
+                if (permiteCero == False):
+                    print("Error: El valor no puede ser Cero.")
+                else:
+                    return valor
+            else:
+                return valor
+        except (ValueError):
+            print("Error: El valor tiene que ser un numero valido.")
 
-        if (valor < 0):
-            if (validaPositivo):
-                print("Error: El valor debe ser positivo.")
-            else:
-                return valor
-        elif (valor == 0):
-            if (permiteCero == False):
-                print("Error: El valor no puede ser Cero.")
-            else:
-                return valor
-        else:
-            return valor
+
 
 def inputInt(texto, validaPositivo:bool, permiteCero:bool): 
     while True:   
