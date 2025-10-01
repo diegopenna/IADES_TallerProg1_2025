@@ -1,5 +1,22 @@
 
-def mostrarMenu(itemsDeMenu:dict, titulo = "", pregunta = "Ingrese una Opcion...", error = "Opcion incorrecta..."):
+def mostrarMenu(itemsDeMenu:dict, titulo = "", pregunta = "Ingrese una Opcion...", error = "Opcion incorrecta..."): 
+    """
+    Muestra un menu por consola y devuelve la opcion elegida.
+    Args:
+        itemsDeMenu (dict): Diccionario con las opciones del menu. La clave es el valor a devolver y el valor es la descripcion.
+        titulo (str, optional): Titulo del menu. Defaults to "".
+        pregunta (str, optional): Pregunta para elegir una opcion. Defaults to "Ingrese una Opcion...".
+        error (str, optional): Mensaje de error para opcion incorrecta. Defaults to "Opcion incorrecta...".
+
+    Returns:
+        str: Clave del diccionario elegida por el usuario.
+    
+    Example:
+        menu = {"1": "Opcion 1", "2": "Opcion 2", "3": "Opcion 3"}
+        opcion = mostrarMenu(menu, "Menu Principal", "Elija una opcion:", "Opcion no valida")
+        print("Opcion elegida:", opcion)
+
+    """
     print()
     if (titulo != ""):
         print(titulo)

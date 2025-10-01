@@ -59,6 +59,9 @@ def menuAbmProductos():
                 print("Listado por", menuOrden[opc2])
                 listaOrdenada = ordenarProductos(columnas[opc2])
                 imprimirListaProd(listaOrdenada)
+        
+        input("Presione Enter para continuar...")
+
 
 def altaProducto():
     print("\nAlta de Producto")
@@ -83,7 +86,22 @@ def altaProducto():
     listaProductos.append(producto)
 
 def bajaProducto():
-    print("Aca va el codigo de la baja")
+    print("\nBaja de Producto")
+    codigo = libInputs.inputAnchoFijo("Ingrese codigo a dar de baja:", 5)
+    prod = buscarPorCodigo(codigo)
+    if prod == None:
+        print("El codigo ingresado es inexistente")
+        return
+    print("\nProducto Encontrado")
+    mostrarProducto(prod)
+    opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Confirma la baja del producto seleccionado?")
+    if opc == "s":
+        listaProductos.remove(prod)
+        print("Producto eliminado con exito")
+    else:
+        print("Operacion cancelada")
+    
+    
 
 def modificarProducto():
     print("\nModificar Producto")
@@ -93,33 +111,41 @@ def modificarProducto():
         print("El codigo ingresado es inexistente")
         return
     
-    print("Producto Encontrado")
+    print("\nProducto Encontrado")
     mostrarProducto(prod)
-    opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea modificar el producto seleccionado?")
-    if opc == "n":
-        return
+
+    #opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea modificar el producto seleccionado?")
+    #if opc == "n":
+    #    return
+    while True:
+        opc = libInputs.mostrarMenu({"1": "Codigo", "2": "Descripcion", "3" : "Categoria", "4" : "Precio", "5": "Stock", "0" : "Finalizar Modifciacion"}, "Ingrese el campo que desea modificar")
+        if opc == "1":
+            while True:
+                codigo = libInputs.inputAnchoFijo("Ingrese codigo:", 5)
+                if prod["codigo"] != codigo:
+                    if buscarPorCodigo(codigo) == None:
+                        break
+                    else:
+                        print("Error: El codigo ingresado ya existe")
+                prod["codigo"] = codigo
+        elif opc == "2":
+            descripcion = libInputs.inputAnchoMaximo("Ingrese descripcion:", 200)
+            prod["descripcion"] = descripcion
+        elif opc == "3":
+            categoria = libInputs.inputOpciones("Ingrese categoria:", listaCategorias)
+            prod["categoria"] = categoria
+        elif opc == "4":
+            precio = libInputs.inputFloat("Ingrese precio:", validaPositivo=True, permiteCero=False)
+            prod["precio"] = precio
+        elif opc == "5":
+            stock =  libInputs.inputInt("Ingrese stock:", validaPositivo=True, permiteCero=True)
+            prod["stock"] = stock
+        elif opc == "0":
+            break
+
+        mostrarProducto(prod)
     
-    opc = libInputs.mostrarMenu({"1": "Codigo", "2": "Descripcion", "3" : "Categoria", "4" : "Precio", "5": "Stock"}, "Ingrese el campo que desea modificar")
-    if opc == "1":
-        while True:
-            codigo = libInputs.inputAnchoFijo("Ingrese codigo:", 5)
-            if buscarPorCodigo(codigo) == None:
-                break
-            else:
-                print("Error: El codigo ingresado ya existe")
-        prod["codigo"] = codigo
-    elif opc == "2":
-        descripcion = libInputs.inputAnchoMaximo("Ingrese descripcion:", 200)
-        prod["descripcion"] = descripcion
-    elif opc == "3":
-        categoria = libInputs.inputOpciones("Ingrese categoria:", listaCategorias)
-        prod["categoria"] = categoria
-    elif opc == "4":
-        precio = libInputs.inputFloat("Ingrese precio:", validaPositivo=True, permiteCero=False)
-        prod["precio"] = precio
-    elif opc == "5":
-        stock =  libInputs.inputInt("Ingrese stock:", validaPositivo=True, permiteCero=True)
-        prod["stock"] = stock
+    print("\nProducto modificado con exito")
 
     
     
