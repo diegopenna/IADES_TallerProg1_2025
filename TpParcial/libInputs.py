@@ -49,6 +49,22 @@ def inputAnchoMaximo(texto, ancho):
         else:
             return valor 
 
+def inputAlfanuNumerico(texto, anchofijo = None):
+   while True:
+        if anchofijo != None:
+            valor = inputAnchoFijo(texto, anchofijo)
+        else:
+            valor = input(texto)
+        esAlfanumerico = True
+        for c in valor:
+            if not ('a' <=  str(c).lower() <= 'z' or '0' <=  str(c).lower() <= '9'):
+                print("Error: El campo solo acepta caracteres alfanumericos.")
+                esAlfanumerico = False
+                break
+        if esAlfanumerico:
+            return valor 
+
+
 def inputOpciones(texto, opciones:list):
     print(texto)
     valoresPosibles = []

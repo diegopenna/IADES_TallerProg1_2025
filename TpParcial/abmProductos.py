@@ -67,7 +67,7 @@ def altaProducto():
     print("\nAlta de Producto")
     producto = {}
     while True:
-        codigo = libInputs.inputAnchoFijo("Ingrese codigo:", 5)
+        codigo = libInputs.inputAlfanuNumerico("Ingrese codigo:", 5)
         if buscarPorCodigo(codigo) == None:
             break
         else:
@@ -87,7 +87,7 @@ def altaProducto():
 
 def bajaProducto():
     print("\nBaja de Producto")
-    codigo = libInputs.inputAnchoFijo("Ingrese codigo a dar de baja:", 5)
+    codigo = libInputs.inputAlfanuNumerico("Ingrese codigo a dar de baja:", 5)
     prod = buscarPorCodigo(codigo)
     if prod == None:
         print("El codigo ingresado es inexistente")
@@ -105,7 +105,7 @@ def bajaProducto():
 
 def modificarProducto():
     print("\nModificar Producto")
-    codigo = libInputs.inputAnchoFijo("Ingrese codigo a modificar:", 5)
+    codigo = libInputs.inputAlfanuNumerico("Ingrese codigo a modificar:", 5)
     prod = buscarPorCodigo(codigo)
     if prod == None:
         print("El codigo ingresado es inexistente")
@@ -121,7 +121,7 @@ def modificarProducto():
         opc = libInputs.mostrarMenu({"1": "Codigo", "2": "Descripcion", "3" : "Categoria", "4" : "Precio", "5": "Stock", "0" : "Finalizar Modifciacion"}, "Ingrese el campo que desea modificar")
         if opc == "1":
             while True:
-                codigo = libInputs.inputAnchoFijo("Ingrese codigo:", 5)
+                codigo = libInputs.inputAlfanuNumerico("Ingrese codigo:", 5)
                 if prod["codigo"] != codigo:
                     if buscarPorCodigo(codigo) == None:
                         break
