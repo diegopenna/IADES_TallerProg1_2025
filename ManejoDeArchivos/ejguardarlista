@@ -1,0 +1,23 @@
+try:
+    archPaises = open("ManejoDeArchivos\paises.list")
+    listaPaises = archPaises.readlines()
+    archPaises.close()
+except FileNotFoundError:
+    listaPaises = []
+    
+while True:
+    pais = input("Ingrese un pais:")
+    listaPaises.append(pais)
+    opc = input("Desea Agregar otro pais? s/n:")
+    if opc.lower() == "n":
+        break
+
+for pais in listaPaises:
+    print(pais)
+
+archPaises = open("ManejoDeArchivos\paises.list", "w")
+for pais in listaPaises:
+    archPaises.write(f"{pais}\n")
+
+archPaises.close()
+
