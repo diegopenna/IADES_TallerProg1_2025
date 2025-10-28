@@ -1,10 +1,13 @@
+listaPaises = []
 archPaises = open("ManejoDeArchivos\paises.list", "r", encoding="utf8")
-listaPaises = archPaises.readlines()
+while True:
+    linea = archPaises.readline()
+    if linea == "":
+        break
+    else:
+        listaPaises.append(linea.strip())
 archPaises.close()
 
-print(listaPaises)
-
-#listaPaises = []
 
 while True:
     pais = input("Ingrese un pais:")
