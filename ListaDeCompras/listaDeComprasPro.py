@@ -1,4 +1,4 @@
-import pathlib
+import pathlib, os
 
 listaActiva:list = None
 nombreArchivo:str = None
@@ -111,15 +111,21 @@ def abrir():
     if not validarListaModificada():
         return False
 
-    nombre = input("Ingrese Nombre de Archivo:")
-    nuevaLista = []
-
-    arch = pathlib.Path(nombre)
-    if (not arch.exists()):
-        print("El archivo no existe.")
-        input("\nPresione enter para continuar...")
-        return False
     
+    listaArch = []
+
+    for arch in os.listdir():
+        if (not pathlib.Path(arch).is_dir()):
+            listaArch.append(arch)
+    
+    print("Seleccione la lista que desea abrir:")
+    for i in range(len(listaArch)):
+        print(f"{i + 1}) {listaArch[i]}")
+    
+    opc = int(input("Ingrese un numero:"))
+
+    nombre = listaArch[opc - 1]
+    nuevaLista = []
     with open(nombre, "r", encoding="utf8") as f:
         for linea in f:
             nuevaLista.append(linea.strip())
@@ -129,7 +135,6 @@ def abrir():
     listaActiva = nuevaLista
     modificada = False
     return True
-
 
 
 def guardar():
