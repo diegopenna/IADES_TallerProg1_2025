@@ -1,4 +1,4 @@
-import pathlib, os
+import pathlib
 
 listaActiva:list = None
 nombreArchivo:str = None
@@ -112,11 +112,13 @@ def abrir():
         return False
 
     
+    ruta = pathlib.Path('.')
+
     listaArch = []
 
-    for arch in os.listdir():
-        if (not pathlib.Path(arch).is_dir()):
-            listaArch.append(arch)
+    for arch in ruta.iterdir():
+        if (arch.is_file()):
+            listaArch.append(arch.name)
     
     print("Seleccione la lista que desea abrir:")
     for i in range(len(listaArch)):

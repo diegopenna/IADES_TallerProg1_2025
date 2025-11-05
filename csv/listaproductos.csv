@@ -1,0 +1,34 @@
+Codigo;Descripcion;Categoria;Precio;Stock
+	00001;"Samsung A22";"Celular";500000,0;30
+	00002;"Motorola G10";"Celular";800000,0;20
+	00003;"iPhone 13";"Celular";1500000,0;15
+	00004;"Xiaomi Redmi Note 11";"Celular";600000,0;25
+	00005;"Notebook Lenovo IdeaPad 3";"Notebook";1200000,0;12
+	00006;"Notebook HP Pavilion 15";"Notebook";1350000,0;10
+	00007;"Notebook Dell Inspiron 14";"Notebook";1400000,0;8
+	00008;"Notebook Asus VivoBook";"Notebook";1250000,0;9
+	00009;"Tablet Samsung Galaxy Tab A7";"Tablet";700000,0;18
+	00010;"iPad 9na Generación";"Tablet";1100000,0;14
+	00011;"Tablet Lenovo Tab M10";"Tablet";650000,0;20
+	00012;"Tablet Huawei MatePad T10";"Tablet";680000,0;16
+	00013;"Mouse Logitech M170";"Periférico";15000,0;100
+	00014;"Teclado Redragon Kumara";"Periférico";45000,0;50
+	00015;"Monitor Samsung 24""";"Periférico";180000,0;20
+	00016;"Impresora HP DeskJet 2710";"Periférico";120000,0;15
+	00017;"Disco Rígido ""WD Blue 1TB""";"Almacenamiento";90000,0;30
+	00018;"SSD Kingston A400 480GB";"Almacenamiento";85000,0;25
+	00019;"Pendrive Sandisk ;64GB";"Almacenamiento";20000,0;60
+	00020;"Tarjeta ""MicroSD"" Samsung 128GB";"Almacenamiento";35000,0;40
+	00021;"Funda iPhone 13 
+ Transparente";"Funda";5000,0;70
+	00022;"Funda Samsung A22 Negra";"Funda";4500,0;60
+	00023;"Funda Universal Tablet 10""";"Funda";8000,0;40
+	00024;"Funda Notebook 15.6""";"Funda";15000,0;30
+	00025;"Cargador Samsung 25W";"Cargador";20000,0;50
+	00026;"Cargador
+Motorola
+TurboPower";"Cargador";22000,0;45
+	00027;"Cargador Apple 20W USB-C";"Cargador";35000,0;35
+	00028;"Cable 		USB-C a USB 1m";"Cable";5000,0;80
+	00029;"Cable HDMI 2m";"Cable";7000,0;70
+	00030;"Auriculares Inalámbricos JBL";"Auricular";60000,0;40
