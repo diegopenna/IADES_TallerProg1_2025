@@ -1,4 +1,5 @@
-import libInputs
+import libInputs, pickle, pathlib
+
 
 class Producto:
     def __init__(self, codigo = "", descripcion = "", categoria = "", precio = 0.0, stock = 0):
@@ -7,8 +8,20 @@ class Producto:
         self.categoria = categoria
         self.precio = precio
         self.stock = stock
-        
 
+    def __str__(self):
+        return "Producto: " +  self.codigo + " - " + self.descripcion
+    
+    def mostrar(self):
+        print("Descripción del Producto:")
+        print("     Codigo:", self.codigo)
+        print("Descripcion:", self.descripcion)
+        print("  Categoría:", self.categoria)
+        print("     Precio:", self.precio)
+        print("      Stock:", self.stock)
+
+
+nombreArchivo = "listaProd.lst"
 listaProductos = [
     Producto('00001', 'Samsung A22', 'Celular', 500000.0, 30),
     Producto('00002', 'Motorola G10', 'Celular', 800000.0, 20),
@@ -49,7 +62,7 @@ def menuAbmProductos():
             '2':'Baja', 
             '3':'Modificación', 
             '4':'Listar', 
-            '0':'Salir' }
+            '0':'Volver al menu anterior' }
     while True:
         opc = libInputs.mostrarMenu(menuAbm, "****** ABM Productos ******")
         if opc == '0':
@@ -95,6 +108,7 @@ def altaProducto():
     producto.stock = stock
 
     listaProductos.append(producto)
+    guardarListaProductos()
 
 def bajaProducto():
     print("\nBaja de Producto")
@@ -104,10 +118,13 @@ def bajaProducto():
         print("El codigo ingresado es inexistente")
         return
     print("\nProducto Encontrado")
-    mostrarProducto(prod)
+
+    prod.mostrar()
+
     opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Confirma la baja del producto seleccionado?")
     if opc == "s":
         listaProductos.remove(prod)
+        guardarListaProductos()
         print("Producto eliminado con exito")
     else:
         print("Operacion cancelada")
@@ -123,7 +140,8 @@ def modificarProducto():
         return
     
     print("\nProducto Encontrado")
-    mostrarProducto(prod)
+
+    prod.mostrar()
 
     #opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea modificar el producto seleccionado?")
     #if opc == "n":
@@ -152,9 +170,10 @@ def modificarProducto():
             stock =  libInputs.inputInt("Ingrese stock:", validaPositivo=True, permiteCero=True)
             prod.stock = stock
         elif opc == "0":
+            guardarListaProductos()
             break
 
-        mostrarProducto(prod)
+        prod.mostrar()
     
     print("\nProducto modificado con exito")
 
@@ -192,15 +211,25 @@ def buscarPorCodigo(codigo):
         if (prod.codigo == codigo):
             return prod
 
-def mostrarProducto(producto:Producto):
-    print("Descripción del Producto")
-    print("     Codigo:", producto.codigo)
-    print("Descripcion:", producto.descripcion)
-    print("  Categoría:", producto.categoria)
-    print("     Precio:", producto.precio)
-    print("      Stock:", producto.stock)
 
-menuAbmProductos()
+def cargarListaProductos():
+    global listaProductos
+    arch = pathlib.Path(nombreArchivo)
+    if (arch.exists()):
+        with open(nombreArchivo, 'rb') as f:
+            listaProductos = pickle.load(f)
+            print("Archivo cargado con exito...")
+    else:
+        print("No se encontro archivo, se inicializa la lista.")
+        #listaProductos = []
+
+def guardarListaProductos():
+    with open(nombreArchivo, 'wb') as f:
+        pickle.dump(listaProductos, f)
+
+cargarListaProductos()
+#menuAbmProductos()
+#guardarListaProductos()
 
 
     
