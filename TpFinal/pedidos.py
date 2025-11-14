@@ -6,6 +6,23 @@ class Pedido:
         self.cuit = ""
         self.nombre = ""
         self.items = []
+    
+    def mostrar(self):
+        print("Pedido Nro.", self.nroPedido)
+        print("CUIT:", self.cuit, " Nombre:", self.nombre)
+        for unItem in self.items:
+            print(str(unItem))
+
+    def cantidadItems(self):
+        return len(self.items)
+    
+    def importeTotal(self):
+        total = 0.0
+        for unItem in self.items:
+            unItem : ItemDePedido
+            total = total + unItem.importe()
+        #El round es para eliminar el error que se produce por sumas de numeros con punto flotante
+        return round(total, 2)
 
 class ItemDePedido:
     def __init__(self):
@@ -14,6 +31,12 @@ class ItemDePedido:
         self.descripcionProd = ""
         self.precioProd = 0.0
         self.cantidad = 0
+    
+    def __str__(self):
+        return f"#{self.orden :5d} {self.descripcionProd[:20] :20}  Precio: {self.precioProd :10.2f} x { self.cantidad :2d} Importe: {self.importe() :11.2f}"
+
+    def importe(self):
+        return self.cantidad * self.precioProd
 
 nombreArchivo = "listaPedidos.lst"
 listaPedidos = []
@@ -26,23 +49,31 @@ def menuPedidos():
         elif opc == "2":
             verPedido()
         elif opc == "3":
-            listarPedido()
+            listarPedidos()
         else:
             break
 
 def altaPedido():
-    #TODO: Desarrollar alta pedidos
-    nombre = input("Ingrese Nombre")
-    cuit = input("Ingrse Cuit")
+    nombre = libInputs.inputAnchoMaximoObligatorio("Ingrese Nombre: ", 200)
+    cuit = libInputs.inputAnchoFijo("Ingrese Cuit: ", 11,soloNumeros=True)
     items = []
     while True:
-        codigo = input("Ingrese Codigo")
+        codigo = libInputs.inputAlfanuNumerico("Ingrese Codigo: ",anchofijo=5)
         prod = abmProductos.buscarPorCodigo(codigo)
-        #Validar que exista el producto
-        #Validar que el producto no este en el pedido
-        if prod != None:
-            cantidad = int(input("Ingrese cantidad"))
-            #Validar cantidad contea stock
+
+        if prod == None:
+            print("Error: Producto Inexistente")
+            continue
+        print()
+        prod.mostrar()
+        opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Continuar con el producto seleccionado? ")
+        # TODO Validar que el producto no este en el pedido
+        if opc == "n":
+            continue
+
+        
+        cantidad = libInputs.inputInt("Ingrese cantidad",validaPositivo=True, permiteCero=False)
+        if prod.stock >= cantidad:
             unItemDePedido = ItemDePedido()
             unItemDePedido.codigoProd = prod.codigo
             unItemDePedido.descripcionProd = prod.descripcion
@@ -50,8 +81,10 @@ def altaPedido():
             unItemDePedido.cantidad = cantidad
             unItemDePedido.orden = len(items) + 1
             items.append(unItemDePedido)
-        
-        opc = input("Otro Item? s/n")
+        else: 
+            print("Error: No hay stock disponible para el producto seleccionado")
+
+        opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea cargar otro item? ")
         if opc == "n":
             break
     
@@ -61,19 +94,30 @@ def altaPedido():
     unPedido.items = items
     unPedido.nroPedido = len(listaPedidos) + 1 
     listaPedidos.append(unPedido)
-    #Falta descontar stock de productos
-    guardarListaPedidos()
-     
-        
-    print("Desarrollar alta pedidos")
+    #TODO Falta descontar stock de productos
+    guardarListaPedidos()    
+
+    print("\nSe dio de alta el siguiente pedido:")
+    unPedido.mostrar()
+    input("\nPresione Enter para continuar...")
+
 
 def verPedido():
-    #TODO: Desarrollar Ver pedido
-    print("Desarrollar ver pedido")   
+    nroPedido = libInputs.inputInt("Ingrese Nro. Pedido:",validaPositivo=True, permiteCero=False)
+    if nroPedido > len(listaPedidos):
+        print("Error: Pedido Inexistente.")
+        input("\nPresione Enter para continuar...")
+        return False
 
-def listarPedido():
-    #TODO: Desarrollar listar pedidos
-    print("Desarrollar listar pedidos")
+    unPedido = listaPedidos[nroPedido -1]
+    unPedido.mostrar()
+    input("\nPresione Enter para continuar...")
+
+def listarPedidos():
+    for unPedido in listaPedidos:
+        unPedido : Pedido
+        print(f"{unPedido.nroPedido :5d} | {unPedido.cuit :11} | {unPedido.nombre[:20] :20} | {unPedido.cantidadItems() :5d} | {unPedido.importeTotal() :11.2f}")
+    input("\nPresione Enter para continuar...")
 
 
 def cargarListaPedidos():

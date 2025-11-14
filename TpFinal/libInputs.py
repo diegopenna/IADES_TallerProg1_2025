@@ -33,13 +33,26 @@ def mostrarMenu(itemsDeMenu:dict, titulo = "", pregunta = "Ingrese una Opcion...
             print(error)
     return opc
 
-def inputAnchoFijo(texto, ancho):
+def inputAnchoFijo(texto, ancho, soloNumeros = False):
     while True:
         valor = input(texto)
         if (len(valor) != ancho):
             print("Error: El campo debe tener", ancho, "caracteres.")
+            continue
+
+        if (soloNumeros == True) and (not valor.isdigit()):
+            print("Error: El campo solo admite numeros.")
+            continue
+
+        return valor
+        
+def inputAnchoMaximoObligatorio(texto, ancho):
+    while True:
+        valor = inputAnchoMaximo(texto, ancho)
+        if len(valor) == 0:
+            print("Error: El campo debe tener no puede ser nulo.")
         else:
-            return valor 
+            return valor
 
 def inputAnchoMaximo(texto, ancho):
     while True:
