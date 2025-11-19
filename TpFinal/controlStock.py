@@ -1,3 +1,5 @@
+from pedidos import Pedido, ItemDePedido
+from abmProductos import Producto
 import libInputs, abmProductos, pedidos
 
 while True:

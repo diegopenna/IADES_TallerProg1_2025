@@ -12,6 +12,8 @@ class Pedido:
         print("CUIT:", self.cuit, " Nombre:", self.nombre)
         for unItem in self.items:
             print(str(unItem))
+        print(f"                                           Cantidad de items: {self.cantidadItems() :11d}" )
+        print(f"                                                 Monto Total: {self.importeTotal() :11.2f}" )
 
     def cantidadItems(self):
         return len(self.items)
@@ -66,8 +68,22 @@ def altaPedido():
             continue
         print()
         prod.mostrar()
+        
+        #Control que no exista producto en pedido
+        existeEnPedido = False
+        for itm in items:
+            itm : ItemDePedido
+            if (itm.codigoProd == prod.codigo):
+                print("Error: El producto ya se encuentra cargado en el pedido.")
+                existeEnPedido = True
+                break
+        
+        if existeEnPedido:
+            continue
+        #Fin control que no exista producto en pedido
+
         opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Continuar con el producto seleccionado? ")
-        # TODO Validar que el producto no este en el pedido
+        
         if opc == "n":
             continue
 
@@ -93,9 +109,20 @@ def altaPedido():
     unPedido.cuit = cuit
     unPedido.items = items
     unPedido.nroPedido = len(listaPedidos) + 1 
-    listaPedidos.append(unPedido)
-    #TODO Falta descontar stock de productos
-    guardarListaPedidos()    
+
+    print("Se va a dar de alta el siguiente pedido:")
+    unPedido.mostrar()
+    opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea confirmar? ")
+
+    if opc == 's':
+        listaPedidos.append(unPedido)
+        for itm in unPedido.items:
+            prod = abmProductos.buscarPorCodigo(itm.codigoProd)
+            prod.stock = prod.stock - itm.cantidad
+        
+        abmProductos.guardarListaProductos()
+        guardarListaPedidos()    
+
 
     print("\nSe dio de alta el siguiente pedido:")
     unPedido.mostrar()
@@ -117,8 +144,31 @@ def listarPedidos():
     for unPedido in listaPedidos:
         unPedido : Pedido
         print(f"{unPedido.nroPedido :5d} | {unPedido.cuit :11} | {unPedido.nombre[:20] :20} | {unPedido.cantidadItems() :5d} | {unPedido.importeTotal() :11.2f}")
+
+    opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "Desea Exportar Listado? ")
+    if opc == "s":
+        exportarlistado()
     input("\nPresione Enter para continuar...")
 
+def exportarlistado():
+    while True:
+        nombreArchivo = libInputs.inputAnchoMaximoObligatorio("Ingrese Nombre de archivo", 255)
+        arch = pathlib.Path(nombreArchivo)
+        if arch.exists():
+            opc = libInputs.mostrarMenu({"s": "Si", "n":"No"}, "El archivo existe. Desea sobreescibirlo?")
+            if (opc == "n"):
+                continue  
+        try:              
+            with open(nombreArchivo, 'w', encoding="utf8") as f:
+                for unPedido in listaPedidos:
+                    unPedido : Pedido
+                    #f.write(f"{unPedido.nroPedido :5d} | {unPedido.cuit :11} | {unPedido.nombre[:20] :20} | {unPedido.cantidadItems() :5d} | {unPedido.importeTotal() :11.2f}\n")
+                    print(f"{unPedido.nroPedido :5d} | {unPedido.cuit :11} | {unPedido.nombre[:20] :20} | {unPedido.cantidadItems() :5d} | {unPedido.importeTotal() :11.2f}", file=f)
+            print("El listado se exporto en: ", nombreArchivo)
+        except Exception as err:
+            print("Ocurrio un error al intentar exportar el archivo. Error: ", err)
+        else:
+            break
 
 def cargarListaPedidos():
     global listaPedidos
@@ -126,6 +176,7 @@ def cargarListaPedidos():
     if (arch.exists()):
         with open(nombreArchivo, 'rb') as f:
             listaPedidos = pickle.load(f)
+    
 
 
 def guardarListaPedidos():
@@ -133,5 +184,8 @@ def guardarListaPedidos():
         pickle.dump(listaPedidos, f)
 
 
+
 cargarListaPedidos()
-menuPedidos()
+
+if (__name__ == '__main__'):
+    menuPedidos()

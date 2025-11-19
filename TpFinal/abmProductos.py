@@ -1,6 +1,5 @@
 import libInputs, pickle, pathlib
 
-
 class Producto:
     def __init__(self, codigo = "", descripcion = "", categoria = "", precio = 0.0, stock = 0):
         self.codigo = codigo
@@ -228,7 +227,9 @@ def guardarListaProductos():
         pickle.dump(listaProductos, f)
 
 cargarListaProductos()
-#menuAbmProductos()
+
+if (__name__ == '__main__'):
+    menuAbmProductos()
 #guardarListaProductos()
 
 
